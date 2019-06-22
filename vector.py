@@ -54,6 +54,10 @@ class Vec4:
             )
         return cls(b_list)
     
+    @classmethod
+    def from_scalars(cls, scalars):
+        return cls(scalars)
+    
     def substitute(self, s_dict):
         new_b_list = []
         for b in self.b_list:
