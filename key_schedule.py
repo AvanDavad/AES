@@ -1,4 +1,5 @@
-from galois import Column, DataChunk
+from vector import Column
+from matrix import DataChunk
 import pickle
 
 RCON = []
