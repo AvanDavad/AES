@@ -59,5 +59,3 @@ def all_list(maxelem):
     for sub_maxelem in range(maxelem):
         all_list_list.extend([[maxelem]+c for c in all_list(sub_maxelem)])
     return all_list_list
-
-AES_P = Polynom2([8,4,3,1,0])
