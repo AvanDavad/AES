@@ -1,3 +1,4 @@
+from galois import Scalar
 from vector import Vec4
 from utils import hex_from_bitlist
 
@@ -55,9 +56,18 @@ class Mat4:
         return '\n'.join(self.rows)
     
     def __add__(self, other):
+        be_added = []
+        if isinstance(other, Mat4):
+            be_added = other.c_list
+        elif isinstance(other, Scalar):
+            be_added = [other for _ in range(4)]
+        elif isinstance(other, str):
+            be_added = [Scalar(other) for _ in range(4)]
+        else:
+            raise ValueError('cannot add {} to Mat4'.format(type(other)))
         c_list = []
         for i in range(4):
-            c_list.append(self.c_list[i] + other.c_list[i])
+            c_list.append(self.c_list[i] + be_added[i])
         return Mat4.from_col_list(c_list)
     
     def __eq__(self, other):
@@ -76,33 +86,33 @@ class Mat4:
         return self._shift_rows(sign=-1)
     
     def _shift_rows(self, sign=1):
-        dc = self.transposed()
+        r_list = []
         for i in range(4):
-            dc.c_list[i] = dc.c_list[i].rot_word(sign*i)
-        dc = dc.transposed()
-        return dc
+            r_list.append(self.r_list[i].rot_word(sign*i))
+        return Mat4.from_row_list(r_list)
     
     def transposed(self):
-        c_list = []
-        for row in range(4):
-            c_list.append(self.get_row(row))
-        return Mat4.from_col_list(c_list)
+        return Mat4.from_col_list(self.r_list)
     
-    def get_row(self, row):
-        scalars = []
-        for i in range(4):
-            scalars.append(self.c_list[i].values[row])
-        return Vec4.from_scalars(scalars)
+    def get_row(self, idx):
+        return self.r_list[idx]
+    
+    def get_col(self, idx):
+        return self.c_list[idx]
+    
+    def get_scalar(self, i, j):
+        return self.r_list[i].values[j]
     
     def mul_col(self, col):
         '''
-        multiply with a Vec4
+        multiply with a Vec4 column vector
         '''
-        values = []
+        scalars = []
         for i in range(4):
-            r = self.get_row(i)
-            values.append(r.dot(col))
-        return Vec4.from_scalars(values)
+            scalars.append(
+                self.r_list[i].dot(col)
+            )
+        return Vec4.from_scalars(scalars)
     
     def __matmul__(self, other):
         '''
