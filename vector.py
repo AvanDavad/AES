@@ -10,6 +10,7 @@ class Vec4:
         '''
         e.g.: Vec4('a1 2c 90 01')
         '''
+        self.hex_str = hex_str
         assert isinstance(hex_str, str)
         self.b_list = []
         values = hex_str.split()
@@ -42,12 +43,7 @@ class Vec4:
         return sum_
     
     def __repr__(self):
-        hex_list = []
-        for i in range(4):
-            hex_list.append(
-                hex_from_bitlist(self.b_list[i].bitlist)
-            )
-        return '\n'.join(hex_list)
+        return self.hex_str
     
     def add_scalar(self, s):
         b_list = []
