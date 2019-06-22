@@ -9,7 +9,25 @@ class Vec4:
     def __init__(self, b_list):
         assert len(b_list) == 4
         self.b_list = b_list
-        
+    
+    @classmethod
+    def from_hexstr(cls, hex_str):
+        '''
+        e.g.:
+        Vec4.from_hexstr('a1 2c 90 01')
+        '''
+        hex_str_list = hex_str.split()
+        b_list = []
+        for hstr in hex_str_list:
+            b_list.append(
+                Scalar(hstr)
+            )
+        return cls(b_list)
+    
+    @classmethod
+    def from_scalars(cls, scalars):
+        return cls(scalars)
+    
     def __add__(self, other):
         b_list = []
         for i in range(4):
@@ -39,24 +57,6 @@ class Vec4:
         for i in range(4):
             b_list.append(self.b_list[i]+s)
         return Vec4(b_list)
-    
-    @classmethod
-    def from_hexstr(cls, hex_str):
-        '''
-        e.g.:
-        Vec4.from_hexstr('a1 2c 90 01')
-        '''
-        hex_str_list = hex_str.split()
-        b_list = []
-        for hstr in hex_str_list:
-            b_list.append(
-                Scalar(hstr)
-            )
-        return cls(b_list)
-    
-    @classmethod
-    def from_scalars(cls, scalars):
-        return cls(scalars)
     
     def substitute(self, s_dict):
         new_b_list = []
