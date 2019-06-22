@@ -1,7 +1,7 @@
 from vector import Column
 from utils import hex_from_bitlist
 
-class DataChunk:
+class Mat4:
     '''
     4 x 4 Matrix.
     this has 4 Column instances.
@@ -23,13 +23,13 @@ class DataChunk:
         c_list = []
         for i in range(4):
             c_list.append(self.c_list[i] + other.c_list[i])
-        return DataChunk(c_list)
+        return Mat4(c_list)
     
     def substitute(self, s_dict):
         new_c_list = []
         for c in self.c_list:
             new_c_list.append(c.substitute(s_dict))
-        return DataChunk(new_c_list)
+        return Mat4(new_c_list)
     
     def shift_rows(self):
         return self._shift_rows(sign=1)
@@ -48,7 +48,7 @@ class DataChunk:
         c_list = []
         for row in range(4):
             c_list.append(self.get_row(row))
-        return DataChunk(c_list)
+        return Mat4(c_list)
     
     def get_row(self, row):
         b_list = []
@@ -74,7 +74,7 @@ class DataChunk:
         c_list = []
         for c in other.c_list:
             c_list.append(self.mul_col(c))
-        return DataChunk(c_list)
+        return Mat4(c_list)
     
     def mul_row(self, row_idx, s):
         '''
@@ -88,7 +88,7 @@ class DataChunk:
             if i == row_idx:
                 r = r.mul_scalar(s)
             new_rows.append(r)
-        new_mat = DataChunk(new_rows)
+        new_mat = Mat4(new_rows)
         new_mat = new_mat.transposed()
         return new_mat
     
@@ -102,7 +102,7 @@ class DataChunk:
             if i == row_idx:
                 r = r.add_scalar(s)
             new_rows.append(r)
-        new_mat = DataChunk(new_rows)
+        new_mat = Mat4(new_rows)
         new_mat = new_mat.transposed()
         return new_mat
     
@@ -116,7 +116,7 @@ class DataChunk:
             if i == rowj:
                 r = r + self.get_row(rowi)
             new_rows.append(r)
-        new_mat = DataChunk(new_rows)
+        new_mat = Mat4(new_rows)
         new_mat = new_mat.transposed()
         return new_mat
     
@@ -131,17 +131,17 @@ class DataChunk:
             if i == rowj:
                 r = self.get_row(rowi).mul_scalar(s) + r
             new_rows.append(r)
-        new_mat = DataChunk(new_rows)
+        new_mat = Mat4(new_rows)
         new_mat = new_mat.transposed()
         return new_mat
 
 
-COL_MIX = DataChunk([Column.from_hexstr('02 01 01 03'), 
+COL_MIX = Mat4([Column.from_hexstr('02 01 01 03'), 
                      Column.from_hexstr('03 02 01 01'), 
                      Column.from_hexstr('01 03 02 01'), 
                      Column.from_hexstr('01 01 03 02')])
 
-COL_MIX_INV = DataChunk([Column.from_hexstr('0e 09 0d 0b'), 
+COL_MIX_INV = Mat4([Column.from_hexstr('0e 09 0d 0b'), 
                          Column.from_hexstr('0b 0e 09 0d'), 
                          Column.from_hexstr('0d 0b 0e 09'), 
                          Column.from_hexstr('09 0d 0b 0e')])

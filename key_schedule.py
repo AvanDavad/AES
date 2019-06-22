@@ -1,5 +1,5 @@
 from vector import Column
-from matrix import DataChunk
+from matrix import Mat4
 import pickle
 
 RCON = []
@@ -28,6 +28,6 @@ def extend_key(k):
             key_word_list.append(new_col)
     keys = []
     for i in range(11):
-        key_chunk = DataChunk(list(key_word_list[4*i:4*(i+1)]))
+        key_chunk = Mat4(list(key_word_list[4*i:4*(i+1)]))
         keys.append(key_chunk)
     return keys
