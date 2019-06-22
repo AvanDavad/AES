@@ -12,6 +12,12 @@ class Scalar:
     this is actually a byte
     '''
     def __init__(self, h_str):
+        '''
+        e.g.: Scalar('a8')
+        '''
+        assert len(h_str) == 2
+        for c in h_str:
+            assert c in '0123456789abcdef'
         self.bitlist = bitlist_from_hex(h_str)
         exponents = exponents_from_bitlist(self.bitlist)
         self._poly = Polynom2(exponents)
