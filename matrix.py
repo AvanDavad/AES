@@ -60,6 +60,9 @@ class Mat4:
             c_list.append(self.c_list[i] + other.c_list[i])
         return Mat4.from_col_list(c_list)
     
+    def __eq__(self, other):
+        return str(self) == str(other)
+    
     def substitute(self, s_dict):
         new_c_list = []
         for c in self.c_list:

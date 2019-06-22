@@ -52,6 +52,9 @@ class Scalar:
         new_poly = (self._poly * other._poly) % AES_P
         return Scalar.from_polynom2(new_poly)
     
+    def __eq__(self, other):
+        return str(self) == str(other)
+    
     def __repr__(self):
         return self.h_str
     

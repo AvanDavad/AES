@@ -3,7 +3,9 @@ from galois import Scalar
 class Vec4:
     '''
     Representing a vector.
+    Immutable, should not change anything inplace.
     this has 4 Scalar instances.
+    Its elements are from GaloisField(256)
     '''
     def __init__(self, hex_str):
         '''
@@ -78,6 +80,9 @@ class Vec4:
         for i in range(4):
             scalars.append(self.values[i]*be_multiplied[i])
         return Vec4.from_scalars(scalars)
+    
+    def __eq__(self, other):
+        return str(self) == str(other)
     
     def __repr__(self):
         return self.hex_str
