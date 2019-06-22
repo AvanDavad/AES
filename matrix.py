@@ -131,61 +131,40 @@ class Mat4:
             c_list.append(self.mul_col(c))
         return Mat4.from_col_list(c_list)
     
-    def mul_row(self, row_idx, s):
-        '''
-        multiply a row by s
-        row_idx: row index (0..3)
-        s: Scalar
-        '''
-        new_rows = []
+    def inverse(self):
+        r_tran = RowTransform()
+        mat = self
+        inv_mat = Mat4.eye()
         for i in range(4):
-            r = self.get_row(i)
-            if i == row_idx:
-                r = r*s
-            new_rows.append(r)
-        new_mat = Mat4.from_col_list(new_rows)
-        new_mat = new_mat.transposed()
-        return new_mat
+            mat = r_tran.fit_transform(mat, i)
+            inv_mat = r_tran.transform(inv_mat)
+        return inv_mat
     
-    def add_row(self, row_idx, s):
-        '''
-        add a scalar to a row
-        '''
-        new_rows = []
-        for i in range(4):
-            r = self.get_row(i)
-            if i == row_idx:
-                r = r+s
-            new_rows.append(r)
-        new_mat = Mat4.from_col_list(new_rows)
-        new_mat = new_mat.transposed()
-        return new_mat
+
+class RowTransform:
+    '''
+    convinient class for matrix inversion
+    '''
+    def fit(self, mat, idx):
+        self.idx = idx
+        self.col = mat.get_col(idx)
+        self.s_inv = mat.get_scalar(idx,idx).inverse()
     
-    def add_rowi_to_rowj(self, rowi, rowj):
-        '''
-        add row `rowi` to row `rowj`
-        '''
-        new_rows = []
+    def transform(self, mat):
+        r_list = [None for _ in range(4)]
+        row = mat.get_row(self.idx)
+        row = row*self.s_inv
+        r_list[self.idx] = row
         for i in range(4):
-            r = self.get_row(i)
-            if i == rowj:
-                r = r + self.get_row(rowi)
-            new_rows.append(r)
-        new_mat = Mat4.from_col_list(new_rows)
-        new_mat = new_mat.transposed()
-        return new_mat
+            if i == self.idx:
+                continue
+            s_idx = self.col.values[i]
+            normed_row = mat.get_row(self.idx) * self.s_inv
+            r_list[i] = (mat.get_row(i) + 
+                         normed_row * s_idx)
+        return Mat4.from_row_list(r_list)
     
-    def mul_add_row(self, rowi, s, rowj):
-        '''
-        multiply row with index `rowi` by s and add to row
-        with index `rowj`
-        '''
-        new_rows = []
-        for i in range(4):
-            r = self.get_row(i)
-            if i == rowj:
-                r = self.get_row(rowi)*s + r
-            new_rows.append(r)
-        new_mat = Mat4.from_col_list(new_rows)
-        new_mat = new_mat.transposed()
-        return new_mat
+    def fit_transform(self, mat, idx):
+        self.fit(mat, idx)
+        return self.transform(mat)
+    
