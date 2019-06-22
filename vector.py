@@ -1,9 +1,9 @@
 from galois import Scalar
 from utils import hex_from_bitlist
 
-class Column:
+class Vec4:
     '''
-    Column Vector.
+    Representing a column vector.
     this has 4 Scalar instances.
     '''
     def __init__(self, b_list):
@@ -14,7 +14,7 @@ class Column:
         b_list = []
         for i in range(4):
             b_list.append(self.b_list[i] + other.b_list[i])
-        return Column(b_list)
+        return Vec4(b_list)
     
     def __mul__(self, other):
         '''
@@ -38,13 +38,13 @@ class Column:
         b_list = []
         for i in range(4):
             b_list.append(self.b_list[i]+s)
-        return Column(b_list)
+        return Vec4(b_list)
     
     @classmethod
     def from_hexstr(cls, hex_str):
         '''
         e.g.:
-        Column.from_hexstr('a1 2c 90 01')
+        Vec4.from_hexstr('a1 2c 90 01')
         '''
         hex_str_list = hex_str.split()
         b_list = []
@@ -62,16 +62,16 @@ class Column:
             new_b_list.append(
                 Scalar(b_hex)
             )
-        return Column(new_b_list)
+        return Vec4(new_b_list)
         
     def rot_word(self, val=1):
         new_b_list = list(self.b_list[val:])
         new_b_list.extend(self.b_list[:val])
-        return Column(new_b_list)
+        return Vec4(new_b_list)
     
     def mul_scalar(self, s):
         b_list = []
         for i in range(4):
             b_list.append(self.b_list[i]*s)
-        return Column(b_list)
+        return Vec4(b_list)
         

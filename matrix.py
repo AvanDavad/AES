@@ -1,10 +1,10 @@
-from vector import Column
+from vector import Vec4
 from utils import hex_from_bitlist
 
 class Mat4:
     '''
     4 x 4 Matrix.
-    this has 4 Column instances.
+    this has 4 Vec4 instances.
     '''
     def __init__(self, c_list):
         assert len(c_list) == 4
@@ -54,17 +54,17 @@ class Mat4:
         b_list = []
         for i in range(4):
             b_list.append(self.c_list[i].b_list[row])
-        return Column(b_list)
+        return Vec4(b_list)
     
     def mul_col(self, col):
         '''
-        multiply with a Column
+        multiply with a Vec4
         '''
         b_list = []
         for i in range(4):
             r = self.get_row(i)
             b_list.append(r*col)
-        return Column(b_list)
+        return Vec4(b_list)
     
     def __matmul__(self, other):
         '''
@@ -136,12 +136,12 @@ class Mat4:
         return new_mat
 
 
-COL_MIX = Mat4([Column.from_hexstr('02 01 01 03'), 
-                     Column.from_hexstr('03 02 01 01'), 
-                     Column.from_hexstr('01 03 02 01'), 
-                     Column.from_hexstr('01 01 03 02')])
+COL_MIX = Mat4([Vec4.from_hexstr('02 01 01 03'), 
+                Vec4.from_hexstr('03 02 01 01'), 
+                Vec4.from_hexstr('01 03 02 01'), 
+                Vec4.from_hexstr('01 01 03 02')])
 
-COL_MIX_INV = Mat4([Column.from_hexstr('0e 09 0d 0b'), 
-                         Column.from_hexstr('0b 0e 09 0d'), 
-                         Column.from_hexstr('0d 0b 0e 09'), 
-                         Column.from_hexstr('09 0d 0b 0e')])
+COL_MIX_INV = Mat4([Vec4.from_hexstr('0e 09 0d 0b'), 
+                    Vec4.from_hexstr('0b 0e 09 0d'), 
+                    Vec4.from_hexstr('0d 0b 0e 09'), 
+                    Vec4.from_hexstr('09 0d 0b 0e')])
