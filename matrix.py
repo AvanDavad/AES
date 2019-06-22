@@ -13,7 +13,7 @@ class Mat4:
         self.r_list = []
         for row in rows:
             assert isinstance(row, str)
-            self.r_list.append(Vec4.from_hexstr(row))
+            self.r_list.append(Vec4(row))
         self.c_list = []
         for col_idx in range(4):
             scalars = []
@@ -84,7 +84,7 @@ class Mat4:
         b_list = []
         for i in range(4):
             b_list.append(self.c_list[i].b_list[row])
-        return Vec4(b_list)
+        return Vec4.from_scalars(b_list)
     
     def mul_col(self, col):
         '''
@@ -94,7 +94,7 @@ class Mat4:
         for i in range(4):
             r = self.get_row(i)
             b_list.append(r*col)
-        return Vec4(b_list)
+        return Vec4.from_scalars(b_list)
     
     def __matmul__(self, other):
         '''

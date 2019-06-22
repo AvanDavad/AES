@@ -5,7 +5,7 @@ import pickle
 RCON = []
 for c in ['01', '02', '04', '08', '10', '20', '40', '80', '1b', '36']:
     RCON.append(
-        Vec4.from_hexstr('{} 00 00 00'.format(c))
+        Vec4('{} 00 00 00'.format(c))
     )
 
 with open('s_dict.pkl', 'rb') as f:

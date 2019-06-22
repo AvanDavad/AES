@@ -6,33 +6,30 @@ class Vec4:
     Representing a column vector.
     this has 4 Scalar instances.
     '''
-    def __init__(self, b_list):
-        assert len(b_list) == 4
-        self.b_list = b_list
-    
-    @classmethod
-    def from_hexstr(cls, hex_str):
+    def __init__(self, hex_str):
         '''
-        e.g.:
-        Vec4.from_hexstr('a1 2c 90 01')
+        e.g.: Vec4('a1 2c 90 01')
         '''
-        hex_str_list = hex_str.split()
-        b_list = []
-        for hstr in hex_str_list:
-            b_list.append(
-                Scalar(hstr)
-            )
-        return cls(b_list)
+        assert isinstance(hex_str, str)
+        self.b_list = []
+        values = hex_str.split()
+        assert len(values) == 4
+        for val in values:
+            self.b_list.append(Scalar(val))
     
     @classmethod
     def from_scalars(cls, scalars):
-        return cls(scalars)
+        assert len(scalars) == 4
+        values = []
+        for s in scalars:
+            values.append(str(s))
+        return cls(' '.join(values))
     
     def __add__(self, other):
         b_list = []
         for i in range(4):
             b_list.append(self.b_list[i] + other.b_list[i])
-        return Vec4(b_list)
+        return Vec4.from_scalars(b_list)
     
     def __mul__(self, other):
         '''
@@ -56,7 +53,7 @@ class Vec4:
         b_list = []
         for i in range(4):
             b_list.append(self.b_list[i]+s)
-        return Vec4(b_list)
+        return Vec4.from_scalars(b_list)
     
     def substitute(self, s_dict):
         new_b_list = []
@@ -66,16 +63,16 @@ class Vec4:
             new_b_list.append(
                 Scalar(b_hex)
             )
-        return Vec4(new_b_list)
+        return Vec4.from_scalars(new_b_list)
         
     def rot_word(self, val=1):
         new_b_list = list(self.b_list[val:])
         new_b_list.extend(self.b_list[:val])
-        return Vec4(new_b_list)
+        return Vec4.from_scalars(new_b_list)
     
     def mul_scalar(self, s):
         b_list = []
         for i in range(4):
             b_list.append(self.b_list[i]*s)
-        return Vec4(b_list)
+        return Vec4.from_scalars(b_list)
         
