@@ -3,7 +3,7 @@ from utils import hex_from_bitlist
 
 class Vec4:
     '''
-    Representing a column vector.
+    Representing a vector.
     this has 4 Scalar instances.
     '''
     def __init__(self, hex_str):
@@ -12,33 +12,52 @@ class Vec4:
         '''
         self.hex_str = hex_str
         assert isinstance(hex_str, str)
-        self.b_list = []
+        self.values = []
         values = hex_str.split()
         assert len(values) == 4
         for val in values:
-            self.b_list.append(Scalar(val))
+            self.values.append(Scalar(val))
     
     @classmethod
     def from_scalars(cls, scalars):
         assert len(scalars) == 4
         values = []
         for s in scalars:
+            assert isinstance(s, Scalar)
             values.append(str(s))
         return cls(' '.join(values))
     
     def __add__(self, other):
-        b_list = []
+        '''
+        Add a Vec4 or a Scalar
+        e.g.:
+          v0 = Vec4('c9 12 31 6a')
+          v1 = Vec4('32 cc d0 0b')
+          v0 + v1 ->
+          v0 + Scalar('ff') ->
+          v0 + 'ff' ->
+        '''
+        be_added = []
+        if isinstance(other, Vec4):
+            be_added = other.values
+        elif isinstance(other, Scalar):
+            be_added = [other for _ in range(4)]
+        elif isinstance(other, str):
+            be_added = [Scalar(other) for _ in range(4)]
+        else:
+            raise ValueError('cannot add {} to Vec4'.format(type(other)))
+        scalars = []
         for i in range(4):
-            b_list.append(self.b_list[i] + other.b_list[i])
-        return Vec4.from_scalars(b_list)
+            scalars.append(self.values[i] + be_added[i])
+        return Vec4.from_scalars(scalars)
     
     def __mul__(self, other):
         '''
-        scalar product
+        inner product
         '''
         pr = []
         for i in range(4):
-            pr.append(self.b_list[i]*other.b_list[i])
+            pr.append(self.values[i]*other.values[i])
         sum_ = pr[0] + pr[1] + pr[2] + pr[3]
         return sum_
     
@@ -46,29 +65,29 @@ class Vec4:
         return self.hex_str
     
     def add_scalar(self, s):
-        b_list = []
+        values = []
         for i in range(4):
-            b_list.append(self.b_list[i]+s)
-        return Vec4.from_scalars(b_list)
+            values.append(self.values[i]+s)
+        return Vec4.from_scalars(values)
     
     def substitute(self, s_dict):
-        new_b_list = []
-        for b in self.b_list:
+        new_values = []
+        for b in self.values:
             b_hex = hex_from_bitlist(b.bitlist)
             b_hex = s_dict[b_hex]
-            new_b_list.append(
+            new_values.append(
                 Scalar(b_hex)
             )
-        return Vec4.from_scalars(new_b_list)
+        return Vec4.from_scalars(new_values)
         
     def rot_word(self, val=1):
-        new_b_list = list(self.b_list[val:])
-        new_b_list.extend(self.b_list[:val])
-        return Vec4.from_scalars(new_b_list)
+        new_values = list(self.values[val:])
+        new_values.extend(self.values[:val])
+        return Vec4.from_scalars(new_values)
     
     def mul_scalar(self, s):
-        b_list = []
+        values = []
         for i in range(4):
-            b_list.append(self.b_list[i]*s)
-        return Vec4.from_scalars(b_list)
+            values.append(self.values[i]*s)
+        return Vec4.from_scalars(values)
         

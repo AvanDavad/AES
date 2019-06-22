@@ -18,7 +18,7 @@ class Mat4:
         for col_idx in range(4):
             scalars = []
             for row_idx in range(4):
-                scalars.append(self.r_list[row_idx].b_list[col_idx])
+                scalars.append(self.r_list[row_idx].values[col_idx])
             column = Vec4.from_scalars(scalars)
             self.c_list.append(column)
     
@@ -30,7 +30,7 @@ class Mat4:
             scalars = []
             for col_idx in range(4):
                 assert isinstance(c_list[col_idx], Vec4)
-                scalars.append(str(c_list[col_idx].b_list[row_idx]))
+                scalars.append(str(c_list[col_idx].values[row_idx]))
             rows.append(' '.join(scalars))
         return cls(rows)
     
@@ -42,7 +42,7 @@ class Mat4:
             assert isinstance(r_list[row_idx], Vec4)
             scalars = []
             for col_idx in range(4):
-                scalars.append(str(r_list[row_idx].b_list[col_idx]))
+                scalars.append(str(r_list[row_idx].values[col_idx]))
             rows.append(' '.join(scalars))
         return cls(rows)
     
@@ -81,20 +81,20 @@ class Mat4:
         return Mat4.from_col_list(c_list)
     
     def get_row(self, row):
-        b_list = []
+        scalars = []
         for i in range(4):
-            b_list.append(self.c_list[i].b_list[row])
-        return Vec4.from_scalars(b_list)
+            scalars.append(self.c_list[i].values[row])
+        return Vec4.from_scalars(scalars)
     
     def mul_col(self, col):
         '''
         multiply with a Vec4
         '''
-        b_list = []
+        values = []
         for i in range(4):
             r = self.get_row(i)
-            b_list.append(r*col)
-        return Vec4.from_scalars(b_list)
+            values.append(r*col)
+        return Vec4.from_scalars(values)
     
     def __matmul__(self, other):
         '''
