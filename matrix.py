@@ -46,6 +46,11 @@ class Mat4:
             rows.append(' '.join(scalars))
         return cls(rows)
     
+    @classmethod
+    def rand(cls):
+        r_list = [Vec4.rand() for _ in range(4)]
+        return Mat4.from_row_list(r_list)
+    
     def __repr__(self):
         return '\n'.join(self.rows)
     
