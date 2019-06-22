@@ -27,6 +27,11 @@ class Vec4:
             values.append(str(s))
         return cls(' '.join(values))
     
+    @classmethod
+    def rand(cls):
+        scalars = [Scalar.rand() for _ in range(4)]
+        return Vec4.from_scalars(scalars)
+    
     def __add__(self, other):
         '''
         Add a Vec4 or a Scalar
