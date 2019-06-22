@@ -1,5 +1,4 @@
 from galois import Scalar
-from utils import hex_from_bitlist
 
 class Vec4:
     '''
@@ -36,11 +35,11 @@ class Vec4:
         '''
         Add a Vec4 or a Scalar
         e.g.:
-          v0 = Vec4('c9 12 31 6a')
-          v1 = Vec4('32 cc d0 0b')
-          v0 + v1 ->
-          v0 + Scalar('ff') ->
-          v0 + 'ff' ->
+          v0 = Vec4('78 ae d9 ab')
+          v1 = Vec4('27 38 3c 10')
+          v0 + v1 -> 5f 96 e5 bb
+          v0 + Scalar('ff') -> 87 51 26 54
+          v0 + 'ff' -> 87 51 26 54
         '''
         be_added = []
         if isinstance(other, Vec4):
@@ -58,6 +57,33 @@ class Vec4:
     
     def __mul__(self, other):
         '''
+        Multiply by a Vec4 or a Scalar
+        e.g.:
+          v0 = Vec4('78 ae d9 ab')
+          v1 = Vec4('27 38 3c 10')
+          v0 * v1 -> ea 15 9a 5e
+          v0 * Scalar('ff') -> bd 3a f5 14
+          v0 * 'ff' -> bd 3a f5 14
+        '''
+        be_multiplied = []
+        if isinstance(other, Vec4):
+            be_multiplied = other.values
+        elif isinstance(other, Scalar):
+            be_multiplied = [other for _ in range(4)]
+        elif isinstance(other, str):
+            be_multiplied = [Scalar(other) for _ in range(4)]
+        else:
+            raise ValueError('cannot multiply {} with Vec4'.format(type(other)))
+        scalars = []
+        for i in range(4):
+            scalars.append(self.values[i]*be_multiplied[i])
+        return Vec4.from_scalars(scalars)
+    
+    def __repr__(self):
+        return self.hex_str
+    
+    def dot(self, other):
+        '''
         inner product
         '''
         pr = []
@@ -66,33 +92,17 @@ class Vec4:
         sum_ = pr[0] + pr[1] + pr[2] + pr[3]
         return sum_
     
-    def __repr__(self):
-        return self.hex_str
-    
-    def add_scalar(self, s):
-        values = []
-        for i in range(4):
-            values.append(self.values[i]+s)
-        return Vec4.from_scalars(values)
-    
     def substitute(self, s_dict):
-        new_values = []
-        for b in self.values:
-            b_hex = hex_from_bitlist(b.bitlist)
-            b_hex = s_dict[b_hex]
-            new_values.append(
-                Scalar(b_hex)
+        scalars = []
+        for val in self.values:
+            looked_up_val = s_dict[str(val)]
+            scalars.append(
+                Scalar(looked_up_val)
             )
-        return Vec4.from_scalars(new_values)
+        return Vec4.from_scalars(scalars)
         
     def rot_word(self, val=1):
-        new_values = list(self.values[val:])
-        new_values.extend(self.values[:val])
-        return Vec4.from_scalars(new_values)
-    
-    def mul_scalar(self, s):
-        values = []
-        for i in range(4):
-            values.append(self.values[i]*s)
-        return Vec4.from_scalars(values)
+        scalars = list(self.values[val:])
+        scalars.extend(self.values[:val])
+        return Vec4.from_scalars(scalars)
         

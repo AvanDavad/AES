@@ -98,7 +98,7 @@ class Mat4:
         values = []
         for i in range(4):
             r = self.get_row(i)
-            values.append(r*col)
+            values.append(r.dot(col))
         return Vec4.from_scalars(values)
     
     def __matmul__(self, other):
@@ -121,7 +121,7 @@ class Mat4:
         for i in range(4):
             r = self.get_row(i)
             if i == row_idx:
-                r = r.mul_scalar(s)
+                r = r*s
             new_rows.append(r)
         new_mat = Mat4.from_col_list(new_rows)
         new_mat = new_mat.transposed()
@@ -135,7 +135,7 @@ class Mat4:
         for i in range(4):
             r = self.get_row(i)
             if i == row_idx:
-                r = r.add_scalar(s)
+                r = r+s
             new_rows.append(r)
         new_mat = Mat4.from_col_list(new_rows)
         new_mat = new_mat.transposed()
@@ -164,7 +164,7 @@ class Mat4:
         for i in range(4):
             r = self.get_row(i)
             if i == rowj:
-                r = self.get_row(rowi).mul_scalar(s) + r
+                r = self.get_row(rowi)*s + r
             new_rows.append(r)
         new_mat = Mat4.from_col_list(new_rows)
         new_mat = new_mat.transposed()
