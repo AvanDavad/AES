@@ -52,6 +52,13 @@ class Mat4:
         r_list = [Vec4.rand() for _ in range(4)]
         return Mat4.from_row_list(r_list)
     
+    @classmethod
+    def eye(cls):
+        c_list = []
+        for i in range(4):
+            c_list.append(Vec4.eye(i))
+        return cls.from_col_list(c_list)
+    
     def __repr__(self):
         return '\n'.join(self.rows)
     
@@ -182,13 +189,3 @@ class Mat4:
         new_mat = Mat4.from_col_list(new_rows)
         new_mat = new_mat.transposed()
         return new_mat
-
-COL_MIX = Mat4(['02 03 01 01', 
-                '01 02 03 01', 
-                '01 01 02 03', 
-                '03 01 01 02'])
-
-COL_MIX_INV = Mat4(['0e 0b 0d 09', 
-                    '09 0e 0b 0d', 
-                    '0d 09 0e 0b', 
-                    '0b 0d 09 0e'])

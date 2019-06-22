@@ -33,6 +33,16 @@ class Vec4:
         scalars = [Scalar.rand() for _ in range(4)]
         return Vec4.from_scalars(scalars)
     
+    @classmethod
+    def eye(cls, idx):
+        scalars = []
+        for i in range(4):
+            if i==idx:
+                scalars.append(Scalar('01'))
+            else:
+                scalars.append(Scalar('00'))
+        return cls.from_scalars(scalars)
+    
     def __add__(self, other):
         '''
         Add a Vec4 or a Scalar

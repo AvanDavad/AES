@@ -1,5 +1,5 @@
 import pickle
-from matrix import COL_MIX, COL_MIX_INV
+from matrix_cons import COL_MIX, COL_MIX_INV
 from key_schedule import extend_key
 
 with open('s_dict.pkl', 'rb') as f:
