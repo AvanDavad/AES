@@ -29,6 +29,14 @@ class Vec4:
         return cls(' '.join(values))
     
     @classmethod
+    def from_integers(cls, integers):
+        assert len(integers) == 4
+        scalars = []
+        for i in integers:
+            scalars.append(Scalar.from_int(i))
+        return cls.from_scalars(scalars)
+    
+    @classmethod
     def rand(cls):
         scalars = [Scalar.rand() for _ in range(4)]
         return Vec4.from_scalars(scalars)

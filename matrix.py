@@ -48,6 +48,14 @@ class Mat4:
         return cls(rows)
     
     @classmethod
+    def from_integers(cls, integers):
+        c_list = []
+        for i in range(4):
+            col = Vec4.from_integers(integers[i*4:(i+1)*4])
+            c_list.append(col)
+        return cls.from_col_list(c_list)
+    
+    @classmethod
     def rand(cls):
         r_list = [Vec4.rand() for _ in range(4)]
         return Mat4.from_row_list(r_list)
