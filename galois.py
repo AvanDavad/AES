@@ -1,6 +1,7 @@
 from poly2 import Polynom2, inverse
 from poly_cons import AES_P
-from utils import (bitlist_from_hex, 
+from utils import (hex_from_int,
+                   bitlist_from_hex, 
                    hex_from_bitlist, 
                    exponents_from_bitlist, 
                    bitlist_from_exponents)
@@ -34,6 +35,12 @@ class Scalar:
         exponents = poly.exponents
         bitlist = bitlist_from_exponents(exponents)
         return cls.from_bitlist(bitlist)
+    
+    @classmethod
+    def from_int(cls, i):
+        assert isinstance(i, int)
+        assert i in list(range(256))
+        return cls(hex_from_int(i))
     
     @classmethod
     def rand(cls):
