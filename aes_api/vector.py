@@ -1,4 +1,4 @@
-from galois import Scalar
+from .galois import Scalar
 
 class Vec4:
     '''

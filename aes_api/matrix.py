@@ -1,6 +1,6 @@
-from galois import Scalar
-from vector import Vec4
-from utils import hex_from_bitlist
+from .galois import Scalar
+from .vector import Vec4
+from .utils import hex_from_bitlist
 
 class Mat4:
     '''

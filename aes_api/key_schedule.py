@@ -1,5 +1,6 @@
-from vector import Vec4
-from matrix import Mat4
+from .vector import Vec4
+from .matrix import Mat4
+from .s_cons import s_dict
 import pickle
 
 RCON = []
@@ -7,10 +8,6 @@ for c in ['01', '02', '04', '08', '10', '20', '40', '80', '1b', '36']:
     RCON.append(
         Vec4('{} 00 00 00'.format(c))
     )
-
-with open('/home/avandavad/python/crypto/AES/s_dict.pkl', 'rb') as f:
-    s_dict = pickle.load(f)
-
 
 def extend_key(k):
     key_word_list = list(k.c_list)

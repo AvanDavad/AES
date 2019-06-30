@@ -1,4 +1,4 @@
-from matrix import Mat4
+from .matrix import Mat4
 
 COL_MIX = Mat4(['02 03 01 01', 
                 '01 02 03 01', 

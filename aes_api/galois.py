@@ -1,10 +1,10 @@
-from poly2 import Polynom2, inverse
-from poly_cons import AES_P
-from utils import (hex_from_int,
-                   bitlist_from_hex, 
-                   hex_from_bitlist, 
-                   exponents_from_bitlist, 
-                   bitlist_from_exponents)
+from .poly2 import Polynom2, inverse
+from .poly_cons import AES_P
+from .utils import (hex_from_int,
+                    bitlist_from_hex, 
+                    hex_from_bitlist, 
+                    exponents_from_bitlist, 
+                    bitlist_from_exponents)
 import random
 
 

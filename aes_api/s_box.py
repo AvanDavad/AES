@@ -1,6 +1,6 @@
-from poly2 import Polynom2, inverse
-from poly_cons import AES_P
-from utils import bitlist_from_hex, hex_from_bitlist
+from .poly2 import Polynom2, inverse
+from .poly_cons import AES_P
+from .utils import bitlist_from_hex, hex_from_bitlist
 import pickle
 
 def save_s_dict(s_dict, name='s_dict'):
