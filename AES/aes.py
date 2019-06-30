@@ -2,7 +2,7 @@ import pickle
 from matrix_cons import COL_MIX, COL_MIX_INV
 from key_schedule import extend_key
 
-with open('s_dict.pkl', 'rb') as f:
+with open('/home/avandavad/python/crypto/AES/s_dict.pkl', 'rb') as f:
     s_dict = pickle.load(f)
 
 def encrypt(x, k):
@@ -16,7 +16,7 @@ def encrypt(x, k):
         y = y + keys[i]
     return y
 
-with open('s_inv_dict.pkl', 'rb') as f:
+with open('/home/avandavad/python/crypto/AES/s_inv_dict.pkl', 'rb') as f:
     s_inv_dict = pickle.load(f)
 
 def decrypt(y, k):

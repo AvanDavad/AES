@@ -78,9 +78,3 @@ def affine_bitlist_transform(blist):
     for i in range(8):
         affine[i] = sum([c[i] for c in tran]) % 2
     return affine
-
-if __name__ == '__main__':
-    s_dict = generate_s_dict()
-    s_inv_dict = get_inverse_dict(s_dict)
-    save_s_dict(s_dict, 's_dict')
-    save_s_dict(s_inv_dict, 's_inv_dict')
