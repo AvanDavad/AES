@@ -1,3 +1,6 @@
+def hex_from_int(i):
+    return hex(i)[2:].zfill(2)
+
 def bitlist_from_hex(h_str):
     '''
     bitlist_from_hex('a3') -> [1, 0, 1, 0, 0, 0, 1, 1] 
@@ -11,7 +14,7 @@ def hex_from_bitlist(bitlist):
     hex_from_bitlist([1, 0, 1, 0, 0, 0, 1, 1]) -> 'a3'
     '''
     int_ = int(''.join([str(c) for c in bitlist]), base=2)
-    return hex(int_)[2:].zfill(2)
+    return hex_from_int(int_)
 
 def exponents_from_bitlist(bitlist):
     '''
